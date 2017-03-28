@@ -11,24 +11,37 @@ prases and displays svgs
   <template>
 
 
-    <style>
+    <style include="shared-styles iron-flex iron-flex-alignment">
       :host {
         display: block;
+
+          width: 400px;
+          height: 300px;
+
+      }
+
+      div#svgEditor {
+        @apply(--shadow-elevation-6dp);
+        height: var(--svg-editor-height);
+        width: var(--svg-editor-width);
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <div id="svgEditor">
+      <h2>Hello [[prop1]]</h2>
 
 
 
 
-    <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="400" height="60">
-      <text id="svgText" name="test" x="10" y="40"
-          style="font-family: Times New Roman;
-                 font-size: 44px;
-                 stroke: #00ff00;
-                 fill: #0000ff;">how<tspan style="font-size: 55px">are you<tspan style="font-size: 20px">doing?</tspan></tspan></text>
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="400" height="60">
+        <text id="svgText" name="test" x="10" y="40"
+            style="font-family: Times New Roman;
+                   font-size: 44px;
+                   stroke: #00ff00;
+                   fill: #0000ff;">how<tspan style="font-size: 55px">are you<tspan style="font-size: 20px">doing?</tspan></tspan></text>
 
-    </svg>
+      </svg>
+    </div>
+
   </template>
 
   <script>

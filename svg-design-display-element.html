@@ -51,7 +51,7 @@ SVG Display and parsing tool
       // this functions parses the text and should be called once at attaching the element and allways when it changes
       _parseText() {
       // this finds only the first text, find out how to get an array of all text tags
-      var texts = this.$$('text');
+      const texts = this.shadowRoot.querySelector('text');
       //this function is better and way cooler imo.
       this.textfield = this.treewalker(document.createTreeWalker(texts,NodeFilter.SHOW_ELEMENT, null,false));
       console.dir(this.textfield);
@@ -64,14 +64,15 @@ SVG Display and parsing tool
 
       // Recursive function
       getTree(node) {
-      var r = {tag: node.nodeName}, a, i;
+      const r = {tag: node.nodeName};
+      let a;
       if (node.childElementCount) {
         r.children = [];
-        for (i = 0; a = node.children[i]; i++) {
+        for (let i = 0; a = node.children[i]; i++) {
           r.children.push(this.getTree(a));
         }
       }
-      for (i = 0; a = node.attributes[i]; i++) {
+      for (let i = 0; a = node.attributes[i]; i++) {
         if(a.NodeName == "style") {
           r[a.nodeName] = a.nodeValue;
         }
@@ -84,14 +85,13 @@ SVG Display and parsing tool
 
       // recursive Function using treewalker object
       treewalker(text) {
-      var r = {
+      const r = {
             'label' : '',
             'value': '',
             'style': '',
             'elements': []
-          },
-          a, i,n,
-          k=0;
+          };
+       let a, i, n, k=0;
       if(!text){
         // base case
         console.log("endofchain")
@@ -130,11 +130,12 @@ SVG Display and parsing tool
 
 
 
-      attached(){
-          Polymer.RenderStatus.beforeNextRender(this, function() {
-            console.log("element is attached and parser is called initially");
-            this._parseText();
-          });
+      ready(){
+        super.ready()
+        Polymer.RenderStatus.beforeNextRender(this, function() {
+          console.log("element is attached and parser is called initially");
+          this._parseText();
+        });
     }
     }
 

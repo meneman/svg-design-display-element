@@ -4,25 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>svg-display test</title>
+    <title>svg-design-display-element test</title>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
-    <link rel="import" href="../svg-display.html">
+    <link rel="import" href="../svg-design-display-element.html">
   </head>
   <body>
     <test-fixture id="basic">
       <template>
-        <svg-display></svg-display>
+        <svg-design-display-element></svg-design-display-element>
       </template>
     </test-fixture>
 
     <script>
-      suite('svg-display', function() {
+      suite('svg-design-display-element', function() {
         test('instantiating the element works', function() {
           var element = fixture('basic');
-          assert.equal(element.is, 'svg-display');
+          assert.equal(element.is, 'svg-design-display-element');
         });
       });
     </script>

@@ -1,26 +1,7 @@
 {
-  "name": "element-svg-display",
-  "version": "1.0.0",
-  "description": "prases and displays svgs",
-  "main": "index.html",
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {
-    "svg-path-parser": "^1.0.1"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/meneman/svg-design-display-element.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/meneman/svg-design-display-element/issues"
-  },
-  "homepage": "https://github.com/meneman/svg-design-display-element#readme"
+  "lint": {
+    "rules": [
+      "polymer-2-hybrid"
+    ]
+  }
 }

@@ -1,0 +1,143 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`svg-design-display-element`
+SVG Display and parsing tool
+
+@demo demo/index.html
+-->
+
+<dom-module id="svg-design-display-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+        @apply(--shadow-elevation-6dp);
+        width: 400px;
+        height: 300px;
+
+      }
+
+      div#svgEditor {
+
+        height: var(--svg-editor-height);
+        width: var(--svg-editor-width);
+      }
+    </style>
+    <div id="svgEditor">
+      <h2>Hello [[prop1]]</h2>
+
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="400" height="60">
+        <text id="svgText" name="test" x="10" y="40"
+              style="font-family: Times New Roman;
+                   font-size: 44px;
+                   stroke: #00ff00;
+                   fill: #0000ff;">how<tspan style="font-size: 55px">are you<tspan style="font-size: 20px">doing?</tspan></tspan></text>
+
+      </svg>
+    </div>
+  </template>
+
+  <script>
+    class SvgDesignDisplayElement extends Polymer.Element {
+      static get is() { return 'svg-design-display-element'; }
+      static get properties() {
+        return {
+          textfield: {
+            type:Object,
+          }
+        };
+      }
+      // this functions parses the text and should be called once at attaching the element and allways when it changes
+      _parseText() {
+      // this finds only the first text, find out how to get an array of all text tags
+      var texts = this.$$('text');
+      //this function is better and way cooler imo.
+      this.textfield = this.treewalker(document.createTreeWalker(texts,NodeFilter.SHOW_ELEMENT, null,false));
+      console.dir(this.textfield);
+      // this is another way without treewalker
+      console.dir(this.getTree(texts));
+
+    }
+
+
+
+      // Recursive function
+      getTree(node) {
+      var r = {tag: node.nodeName}, a, i;
+      if (node.childElementCount) {
+        r.children = [];
+        for (i = 0; a = node.children[i]; i++) {
+          r.children.push(this.getTree(a));
+        }
+      }
+      for (i = 0; a = node.attributes[i]; i++) {
+        if(a.NodeName == "style") {
+          r[a.nodeName] = a.nodeValue;
+        }
+
+      }
+      r['text'] = node.textContent;
+      return r;
+    }
+
+
+      // recursive Function using treewalker object
+      treewalker(text) {
+      var r = {
+            'label' : '',
+            'value': '',
+            'style': '',
+            'elements': []
+          },
+          a, i,n,
+          k=0;
+      if(!text){
+        // base case
+        console.log("endofchain")
+        return r;
+      }
+
+      // here i do stuff
+      for (i = 0; a = text.currentNode.attributes[i]; i++) {
+        // if(a.nodeName == "style") uncomment to only get style attribute
+        r[a.nodeName] = a.nodeValue;
+      }
+
+      // go over childnodes and to get the pure textnode child
+      for(n = 0; n < text.currentNode.childNodes.length; n++ ){
+        if(text.currentNode.childNodes[n].nodeType == 3){
+          r.value = text.currentNode.childNodes[n].textContent;
+        }
+      }
+
+      //mb log this somewhere because a texttag without text has no specific use?
+      if(!r.value){
+        console.log("warning: the following text tag has no content");
+        console.log(text.currentNode);
+      }
+
+
+      //recusive cases
+      while(text.nextNode()){
+        r.elements.push(this.treewalker(text));
+
+      }
+
+      return r;
+
+    }
+
+
+
+      attached(){
+          Polymer.RenderStatus.beforeNextRender(this, function() {
+            console.log("element is attached and parser is called initially");
+            this._parseText();
+          });
+    }
+    }
+
+    window.customElements.define(SvgDesignDisplayElement.is, SvgDesignDisplayElement);
+  </script>
+</dom-module>

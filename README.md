@@ -1,6 +1,6 @@
-# \<svg-display\>
+# \<svg-design-display-element\>
 
-prases and displays svgs
+SVG Display and parsing tool
 
 ## Install the Polymer-CLI
 

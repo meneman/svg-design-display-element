@@ -33,7 +33,11 @@ SVG Display and parsing tool
                    font-size: 44px;
                    stroke: #00ff00;
                    fill: #0000ff;">how<tspan style="font-size: 55px">are you<tspan style="font-size: 20px">doing?</tspan></tspan></text>
-
+                   <text id="svgText2" name="test" x="10" y="100"
+                         style="font-family: Times New Roman;
+                              font-size: 44px;
+                              stroke: #00ff00;
+                              fill: #0000ff;">how<tspan style="font-size: 55px">are you<tspan style="font-size: 20px">doing?</tspan></tspan></text>
       </svg>
     </div>
   </template>
@@ -43,20 +47,25 @@ SVG Display and parsing tool
       static get is() { return 'svg-design-display-element'; }
       static get properties() {
         return {
-          textfield: {
-            type:Object,
+          textfields: {
+            type:Array,
+            value: []
           }
         };
       }
+
+
       // this functions parses the text and should be called once at attaching the element and allways when it changes
       _parseText() {
-      // this finds only the first text, find out how to get an array of all text tags
-      const texts = this.shadowRoot.querySelector('text');
-      //this function is better and way cooler imo.
-      this.textfield = this.treewalker(document.createTreeWalker(texts,NodeFilter.SHOW_ELEMENT, null,false));
-      console.dir(this.textfield);
-      // this is another way without treewalker
-      console.dir(this.getTree(texts));
+      const texts = this.shadowRoot.querySelectorAll('text');
+
+      for(let i=0; i < texts.length; i++) {
+        this.push('textfields', this.treewalker(document.createTreeWalker(texts[i],NodeFilter.SHOW_ELEMENT, null,false)));
+
+      }
+      console.log(this.textfields);
+
+    //  console.dir(this.getTree(texts[0]));
 
     }
 
